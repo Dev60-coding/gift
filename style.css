@@ -248,7 +248,7 @@ header {
 
 /* HIDDEN ELEMENTS */
 .hidden {
-    display: none;
+    display: grid;
 }
 
 /* MOBILE NAVBAR */
