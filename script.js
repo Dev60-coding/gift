@@ -393,6 +393,7 @@ const replyMessage = document.getElementById("replyMessage");
 const sendMessage = document.getElementById("sendMessage");
 const replyStatus = document.getElementById("replyStatus");
 
+
 replyForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -420,19 +421,9 @@ replyForm.addEventListener("submit", async (event) => {
             }
         );
 
-        const rawResponse = await response.text();
-        console.log("HTTP status:", response.status);
-        console.log("Raw FormSubmit response:", rawResponse);
+        const result = await response.json();
 
-        let result;
-
-        try {
-            result = JSON.parse(rawResponse);
-        } catch {
-            throw new Error("Error 1");
-        }
-
-        console.log("Parsed response:", result);
+        console.log("FormSubmit:", result);
 
         if (
             response.ok &&
@@ -444,16 +435,16 @@ replyForm.addEventListener("submit", async (event) => {
             replyForm.reset();
         } else {
             replyStatus.textContent =
-                result.message || "Error 2";
-
+                result.message || "message couldn't be sent";
         }
 
     } catch (error) {
         console.error("Submission error:", error);
-        replyStatus.textContent = error.message;
 
+        replyStatus.textContent =
+            "connection error. please try again.";
     } finally {
         sendMessage.disabled = false;
-        sendMessage.innerHTML = 'Send your message';
+        sendMessage.textContent = "Send your message";
     }
 });
